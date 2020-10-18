@@ -1,7 +1,7 @@
 import { query } from "./query";
 import { mutation } from "./mutation";
-import { userType, bugType } from "./types/index";
+import { types } from "./types/index";
 
-const typeDefs = [query, mutation, userType, bugType];
+const typeDefs = [query, mutation, types];
 
 export { typeDefs };

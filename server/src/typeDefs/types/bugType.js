@@ -13,6 +13,4 @@ const bugType = gql`
   }
 `;
 
-module.exports = {
-  bugType,
-};
+export { bugType };

@@ -8,11 +8,9 @@ const bugSchema = new Schema(
     description: { type: String, required: true },
     platform: { type: String, required: true },
     severity: { type: Number, required: true },
-    realseBlocker: { type: Boolean, required: true },
+    releaseBlocker: { type: Boolean, required: true },
   },
   { timestamps: true }
 );
 
-const Bug = mongoose.model("Bug", bugSchema);
-
-export default Bug;
+export const Bug = mongoose.model("Bug", bugSchema);

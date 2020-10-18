@@ -1,12 +1,12 @@
 import { gql } from "apollo-server-express";
 
 const userType = gql`
+  scalar Date
   type User {
     id: ID!
     username: String!
+    createdAt: Date
   }
 `;
 
-module.exports = {
-  userType,
-};
+export { userType };
