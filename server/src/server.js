@@ -42,12 +42,5 @@ app.listen(port, (err) => {
     console.log("❗There was an error trying to start the server.", err);
     return;
   }
-<<<<<<< HEAD
-  console.log(
-    `\n ⚡ Server is up & running on port: ${port}`,
-    `\n 🚀 Apollo Playground ready at: http://localhost:${port}${server.graphqlPath} \n`
-  );
-=======
   console.log(`\n ⚡ Server is up & running on port: ${port}`);
->>>>>>> use_rest_api
 });
