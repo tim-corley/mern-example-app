@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const AddBug = () => {
   const initialState = {
@@ -35,7 +36,12 @@ const AddBug = () => {
   const addBug = (e) => {
     e.preventDefault();
     console.log("\n 📬 SENDING NEW BUG DATA TO SERVER...");
-    setBugData(initialState);
+    const newBug = bugData;
+    console.log(newBug);
+    axios
+      .post("http://localhost:3000/bugs/add", newBug)
+      .then((res) => console.log(res.data))
+      .then(setBugData(initialState));
   };
 
   return (
