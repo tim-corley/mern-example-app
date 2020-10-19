@@ -22,7 +22,6 @@ const bugsResolvers = {
       });
       return bugData;
     },
-    // check updatedAt vs. createdAt values being returned
     editBug: async (
       _,
       { id, title, description, platform, severity, releaseBlocker }
@@ -47,8 +46,8 @@ const bugsResolvers = {
       if (releaseBlocker !== undefined) {
         bug.releaseBlocker = releaseBlocker;
       }
-      await Bug.findByIdAndUpdate(id, bug);
-      return bug;
+      const updatedBug = await Bug.findByIdAndUpdate(id, bug, { new: true });
+      return updatedBug;
     },
     // TODO: check for approach to confirm deletion
     deleteBug: async (_, { id }) => {

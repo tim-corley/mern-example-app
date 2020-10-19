@@ -17,7 +17,7 @@ const mutation = gql`
       severity: Int
       releaseBlocker: Boolean
     ): BugUpdate!
-    deleteBug(id: ID!): BugDelete
+    deleteBug(id: ID!): BugDelete!
     createUser(username: String!): User!
   }
 `;

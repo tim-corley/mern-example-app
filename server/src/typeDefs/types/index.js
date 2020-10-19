@@ -13,6 +13,7 @@ const types = gql`
     severity: Int
     releaseBlocker: Boolean
     createdAt: Date
+    updatedAt: Date
   }
   type BugUpdate {
     id: ID!
