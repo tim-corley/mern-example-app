@@ -23,7 +23,12 @@ app.use(cors());
 app.use(express.json());
 
 const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+});
 
 const connection = mongoose.connection;
 connection.once("open", () => {
@@ -40,6 +45,6 @@ app.listen(port, (err) => {
   }
   console.log(
     `\n ⚡ Server is up & running on port: ${port}`,
-    `\n 🚀 Apollo Playground ready at: http://localhost:${port}${server.graphqlPath}`
+    `\n 🚀 Apollo Playground ready at: http://localhost:${port}${server.graphqlPath} \n`
   );
 });

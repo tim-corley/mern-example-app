@@ -7,12 +7,21 @@ const types = gql`
   scalar Date
   type Bug {
     id: ID!
-    title: String!
-    description: String!
-    platform: String!
-    severity: Int!
-    releaseBlocker: Boolean!
+    title: String
+    description: String
+    platform: String
+    severity: Int
+    releaseBlocker: Boolean
     createdAt: Date
+  }
+  type BugUpdate {
+    id: ID!
+    title: String!
+    createdAt: Date!
+    updatedAt: Date!
+  }
+  type BugDelete {
+    deleteDone: Boolean!
   }
   type User {
     id: ID!
