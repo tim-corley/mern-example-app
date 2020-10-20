@@ -18,7 +18,14 @@ const mutation = gql`
       releaseBlocker: Boolean
     ): BugUpdate!
     deleteBug(id: ID!): BugDelete!
-    createUser(username: String!): User!
+    createUser(
+      firstName: String!
+      lastName: String!
+      username: String!
+      organization: String!
+      password: String!
+      isAdmin: Boolean!
+    ): User!
   }
 `;
 

@@ -35,8 +35,8 @@ connection.once("open", () => {
   console.log(`\n 🌎 Succesfully connected to MongoDB Atlas`);
 });
 
-app.use("/bugs", BugRoute);
-app.use("/users", UserRoute);
+// app.use("/bugs", BugRoute);
+// app.use("/users", UserRoute);
 
 app.listen(port, (err) => {
   if (err) {

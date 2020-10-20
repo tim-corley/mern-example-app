@@ -9,8 +9,18 @@ const usersResolvers = {
     },
   },
   Mutation: {
-    createUser: async (_, { username }) => {
-      let userData = await User.create({ username });
+    createUser: async (
+      _,
+      { firstName, lastName, username, organization, password, isAdmin }
+    ) => {
+      let userData = await User.create({
+        firstName,
+        lastName,
+        username,
+        organization,
+        password,
+        isAdmin,
+      });
       return userData;
     },
   },
