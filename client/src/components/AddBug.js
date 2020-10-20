@@ -1,4 +1,31 @@
 import React, { useState } from "react";
+import { useMutation, gql } from "@apollo/client";
+
+const ADD_BUG = gql`
+  mutation AddBug(
+    $title: String!
+    $description: String!
+    $platform: String!
+    $severity: Int!
+    $releaseBlocker: Boolean!
+  ) {
+    addBug(
+      title: $title
+      description: $description
+      platform: $platform
+      severity: $severity
+      releaseBlocker: $releaseBlocker
+    ) {
+      id
+      title
+      description
+      platform
+      severity
+      releaseBlocker
+      createdAt
+    }
+  }
+`;
 
 const AddBug = () => {
   const initialState = {
@@ -9,6 +36,7 @@ const AddBug = () => {
     releaseBlocker: false,
   };
   const [bugData, setBugData] = useState(initialState);
+  const [addBug] = useMutation(ADD_BUG);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,16 +60,25 @@ const AddBug = () => {
     }
   };
 
-  const addBug = (e) => {
+  const sumbitBug = (e) => {
     e.preventDefault();
     console.log("\n 📬 SENDING NEW BUG DATA TO SERVER...");
-    const newBug = bugData;
-    console.log(newBug);
+    const { title, description, platform, severity, releaseBlocker } = bugData;
+    addBug({
+      variables: {
+        title,
+        description,
+        platform,
+        severity,
+        releaseBlocker,
+      },
+    });
+    console.log("\n ✅ SUCCESS!");
   };
 
   return (
     <div className="m-10 p-6 border-dashed border-2 border-dark">
-      <form onSubmit={addBug}>
+      <form onSubmit={sumbitBug}>
         <label>Title</label>
         <input
           type="text"
