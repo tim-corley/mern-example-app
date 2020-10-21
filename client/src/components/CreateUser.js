@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useMutation, gql } from "@apollo/client";
-import { hasDirectives } from "@apollo/client/utilities";
 
 const CREATE_USER = gql`
   mutation CreateUser(

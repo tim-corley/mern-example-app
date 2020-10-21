@@ -3,15 +3,16 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   output: {
-    publicPath: "http://localhost:8081/"
+    publicPath: "/",
   },
   devServer: {
     port: 8081,
-    host: '0.0.0.0',
+    host: "0.0.0.0",
+    historyApiFallback: true,
     watchOptions: {
       aggregateTimeout: 500,
-      poll: 1000
-    }
+      poll: 1000,
+    },
   },
   module: {
     rules: [
@@ -19,26 +20,23 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: "babel-loader",
+        },
       },
-       {
+      {
         test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader", "postcss-loader",
-          ],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
       },
-    ]
+    ],
   },
   plugins: [
     new MiniCssExtractPlugin({
       filename: "styles.css",
-      chunkFilename: "styles.css"
+      chunkFilename: "styles.css",
     }),
     new HtmlWebPackPlugin({
-    template: "./src/index.html",
-    filename: "./index.html"
-  }),
-]
+      template: "./src/index.html",
+      filename: "./index.html",
+    }),
+  ],
 };
