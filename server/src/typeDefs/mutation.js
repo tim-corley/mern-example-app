@@ -22,10 +22,11 @@ const mutation = gql`
       firstName: String!
       lastName: String!
       username: String!
+      email: String!
       organization: String!
       password: String!
       isAdmin: Boolean!
-    ): User!
+    ): UserAuth!
   }
 `;
 

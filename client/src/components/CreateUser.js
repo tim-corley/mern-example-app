@@ -6,6 +6,7 @@ const CREATE_USER = gql`
     $firstName: String!
     $lastName: String!
     $username: String!
+    $email: String!
     $organization: String!
     $password: String!
     $isAdmin: Boolean!
@@ -14,14 +15,19 @@ const CREATE_USER = gql`
       firstName: $firstName
       lastName: $lastName
       username: $username
+      email: $email
       organization: $organization
       password: $password
       isAdmin: $isAdmin
     ) {
-      id
-      username
-      isAdmin
-      createdAt
+      user {
+        id
+        username
+        email
+        isAdmin
+        createdAt
+      }
+      token
     }
   }
 `;
@@ -31,13 +37,18 @@ const CreateUser = () => {
     firstName: "",
     lastName: "",
     username: "",
+    email: "",
     organization: "",
     password: "",
     isAdmin: false,
   };
 
   const [userData, setUserData] = useState(initialState);
-  const [createUser] = useMutation(CREATE_USER);
+  const [createUser, { loading, error, data }] = useMutation(CREATE_USER);
+
+  if (data) {
+    console.log("DATA: ", data);
+  }
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
@@ -61,6 +72,7 @@ const CreateUser = () => {
       firstName,
       lastName,
       username,
+      email,
       organization,
       password,
       isAdmin,
@@ -70,6 +82,7 @@ const CreateUser = () => {
         firstName,
         lastName,
         username,
+        email,
         organization,
         password,
         isAdmin,
@@ -81,6 +94,7 @@ const CreateUser = () => {
 
   return (
     <div className="m-10 p-6 border-dashed border-2 border-dark">
+      <div>PLEASE CREATE A NEW USER</div>
       <form onSubmit={sumbitUser}>
         <label>First Name</label>
         <input
@@ -102,6 +116,13 @@ const CreateUser = () => {
           type="text"
           value={userData.username}
           name="username"
+          onChange={handleChange}
+        ></input>
+        <label>Email</label>
+        <input
+          type="text"
+          value={userData.email}
+          name="email"
           onChange={handleChange}
         ></input>
         <label>Organization</label>

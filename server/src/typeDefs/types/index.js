@@ -24,15 +24,31 @@ const types = gql`
   type BugDelete {
     deleteDone: Boolean!
   }
-  type User {
+  type UserInput {
     id: ID!
     firstName: String!
     lastName: String!
     username: String!
+    email: String!
     organization: String!
     password: String!
     isAdmin: Boolean!
     createdAt: Date
+  }
+  type UserResp {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    username: String!
+    email: String!
+    organization: String!
+    isAdmin: Boolean!
+    createdAt: Date
+  }
+  type UserAuth {
+    user: UserResp!
+    token: String!
+    tokenExp: Int
   }
 `;
 

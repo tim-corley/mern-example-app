@@ -3,7 +3,9 @@ import { gql } from "apollo-server-express";
 const query = gql`
   type Query {
     bugs: [Bug]
-    users: [User]
+    users: [UserResp]
+    demo(email: String!): UserResp!
+    loginUser(email: String!, password: String!): UserAuth!
   }
 `;
 

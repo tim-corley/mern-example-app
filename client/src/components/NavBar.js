@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import NavItem from "./NavItem";
 import { Link } from "react-router-dom";
+import { Context } from "../context/authContext";
 
 const NavBar = () => {
+  const [data] = useContext(Context);
+  console.log(data);
   return (
     <div className="flex flex-col h-screen bg-dark">
+      {data.user ? (
+        <p className="text-red-300">{data.user.username}</p>
+      ) : (
+        <p>please log in</p>
+      )}
       <div className="mx-2 my-4 p-2">
         <Link to="/">
           <NavItem

@@ -1,26 +1,34 @@
 require("dotenv").config({ path: require("find-config")(".env") });
+import { ApolloServer } from "apollo-server-express";
+import AuthMiddleware from "./middleware/auth";
+import { typeDefs } from "./typeDefs/index";
+import { resolvers } from "./resolvers/index";
+import { models } from "./models/index";
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import UserRoute from "./routes/users";
-import BugRoute from "./routes/bugs";
-// bring in all typeDefs & Resolvers
-import { ApolloServer } from "apollo-server-express";
-import { typeDefs } from "./typeDefs/index";
-import { resolvers } from "./resolvers/index";
 
 const app = express();
 const port = process.env.PORT || 3001;
 
+app.use(cors());
+app.use(express.json());
+app.use(AuthMiddleware);
+
 const server = new ApolloServer({
   typeDefs: typeDefs,
   resolvers: resolvers,
+  context: ({ req }) => {
+    let { isAuth, user } = req;
+    return {
+      isAuth,
+      user,
+      ...models,
+    };
+  },
 });
 
 server.applyMiddleware({ app: app });
-
-app.use(cors());
-app.use(express.json());
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
@@ -34,9 +42,6 @@ const connection = mongoose.connection;
 connection.once("open", () => {
   console.log(`\n 🌎 Succesfully connected to MongoDB Atlas`);
 });
-
-// app.use("/bugs", BugRoute);
-// app.use("/users", UserRoute);
 
 app.listen(port, (err) => {
   if (err) {
