@@ -1,4 +1,8 @@
-import { ApolloError } from "apollo-server-express";
+import {
+  ApolloError,
+  UserInputError,
+  AuthenticationError,
+} from "apollo-server-express";
 import { GraphQLDateTime } from "graphql-iso-date";
 import { User } from "../models/User.model";
 import { userFunctions } from "../functions/userFunctions";
@@ -9,7 +13,7 @@ const usersResolvers = {
     // protected query example
     demo: async (_, { email }, context) => {
       if (!context.isAuth) {
-        throw new Error("Cannot Access Without Valid Token!");
+        throw new AuthenticationError("Cannot Access Without Valid Token!");
       }
       // console.log(context);
       return await User.findOne({ email });
@@ -34,31 +38,46 @@ const usersResolvers = {
   Mutation: {
     createUser: async (
       _,
-      { firstName, lastName, username, email, organization, password, isAdmin }
-    ) => {
-      try {
-        let user;
-        user = await User.findOne({ username });
-        if (user) throw new Error("This username is already taken.");
-        user = await User.findOne({ email });
-        if (user)
-          throw new Error("This email address belongs to an existing user.");
-        user = await User.create({
-          firstName,
-          lastName,
-          username,
-          email,
-          organization,
-          password,
-          isAdmin,
-        });
-        // issue json web token
-        let serializedUser = userFunctions.serializeUser(user);
-        let token = userFunctions.issueToken(serializedUser);
-        return { user, token };
-      } catch (err) {
-        throw new ApolloError(err.message, 400);
+      {
+        firstName,
+        lastName,
+        username,
+        email,
+        organization,
+        password,
+        confirmPwd,
+        isAdmin,
       }
+    ) => {
+      const { valid, errors } = userFunctions.inputValidation({
+        username,
+        email,
+        password,
+        confirmPwd,
+      });
+      if (!valid) {
+        throw new UserInputError("Input Validation Error(s)", { errors });
+      }
+      let user = await User.findOne({ username });
+      if (user) throw new ApolloError("This username is already taken.");
+      user = await User.findOne({ email });
+      if (user)
+        throw new ApolloError(
+          "This email address belongs to an existing user."
+        );
+      user = await User.create({
+        firstName,
+        lastName,
+        username,
+        email,
+        organization,
+        password,
+        isAdmin,
+      });
+      // issue json web token
+      let serializedUser = userFunctions.serializeUser(user);
+      let token = userFunctions.issueToken(serializedUser);
+      return { user, token };
     },
   },
 };

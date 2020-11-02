@@ -11,6 +11,7 @@ const CREATE_USER = gql`
     $email: String!
     $organization: String!
     $password: String!
+    $confirmPwd: String!
     $isAdmin: Boolean!
   ) {
     createUser(
@@ -20,6 +21,7 @@ const CREATE_USER = gql`
       email: $email
       organization: $organization
       password: $password
+      confirmPwd: $confirmPwd
       isAdmin: $isAdmin
     ) {
       user {
@@ -42,29 +44,43 @@ const CreateUser = () => {
     email: "",
     organization: "",
     password: "",
+    confirmPwd: "",
     isAdmin: false,
   };
   const history = useHistory();
   const [userInfo, setUserInfo] = useContext(Context);
   const [userInput, setUserInput] = useState(defaultFields);
-  const [createUser, { loading, error, data }] = useMutation(CREATE_USER);
-
-  if (loading) {
-    console.log("loading");
-  }
-  if (error) {
-    console.error("ERROR: ", error);
-  }
-  useEffect(() => {
-    if (data) {
+  const [createUser, { loading, error, data }] = useMutation(CREATE_USER, {
+    onCompleted: (data) => {
       console.log("new user created. ", data);
       setUserInfo({
         token: data.createUser.token,
         user: data.createUser.user,
       });
       history.push("/");
-    }
-  }, [data]);
+    },
+    onError: (error) => {
+      console.error("ERR!", error);
+    },
+  });
+
+  if (loading) {
+    console.log("loading");
+  }
+  // if (error) {
+  //   console.error("ERROR: ", error);
+  //   console.log("\n---", error.extraInfo);
+  // }
+  // useEffect(() => {
+  //   if (data) {
+  //     console.log("new user created. ", data);
+  //     setUserInfo({
+  //       token: data.createUser.token,
+  //       user: data.createUser.user,
+  //     });
+  //     history.push("/");
+  //   }
+  // }, [data]);
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
@@ -90,6 +106,7 @@ const CreateUser = () => {
       email,
       organization,
       password,
+      confirmPwd,
       isAdmin,
     } = userInput;
     createUser({
@@ -100,6 +117,7 @@ const CreateUser = () => {
         email,
         organization,
         password,
+        confirmPwd,
         isAdmin,
       },
     });
@@ -150,6 +168,13 @@ const CreateUser = () => {
           type="password"
           value={userInput.password}
           name="password"
+          onChange={handleChange}
+        ></input>
+        <label>Confirm Password</label>
+        <input
+          type="password"
+          value={userInput.confirmPwd}
+          name="confirmPwd"
           onChange={handleChange}
         ></input>
         <label>

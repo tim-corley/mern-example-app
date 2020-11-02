@@ -1,7 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { ContextController, Context } from "./context/authContext";
+import { ContextController } from "./context/authContext";
+import { ApolloLink } from "apollo-link";
+import { createHttpLink } from "apollo-link-http";
+import { onError } from "apollo-link-error";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import EditBug from "./components/EditBug";
@@ -12,9 +15,25 @@ import UserLanding from "./components/UserLanding";
 import LoginUser from "./components/LoginUser";
 import "./styles.css";
 
+const errorLink = onError(({ response, networkError, graphQLErrors }) => {
+  console.log(response);
+  if (graphQLErrors) {
+    graphQLErrors.map(({ message, locations, path }) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      )
+    );
+  }
+  if (networkError) console.log(`[Network error]: ${networkError}`);
+});
+
 const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql",
+  // uri: "http://localhost:3000/graphql",
   cache: new InMemoryCache(),
+  link: ApolloLink.from([
+    errorLink,
+    new createHttpLink({ uri: "http://localhost:3000/graphql" }),
+  ]),
 });
 
 const App = () => {

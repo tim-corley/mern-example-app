@@ -32,6 +32,7 @@ const types = gql`
     email: String!
     organization: String!
     password: String!
+    confirmPwd: String!
     isAdmin: Boolean!
     createdAt: Date
   }
