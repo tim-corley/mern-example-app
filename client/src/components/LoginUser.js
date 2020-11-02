@@ -1,6 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useLazyQuery, gql } from "@apollo/client";
 import { Context } from "../context/authContext";
+import { useHistory, Link } from "react-router-dom";
 
 const LOGIN_USER = gql`
   query LoginUser($email: String!, $password: String!) {
@@ -21,15 +22,18 @@ const LOGIN_USER = gql`
 `;
 
 const LoginUser = () => {
+  const history = useHistory();
+  const defaultFields = { email: "", password: "" };
   const [userInfo, setUserInfo] = useContext(Context);
-  const [credsInput, setCredsInput] = useState({});
+  const [credsInput, setCredsInput] = useState(defaultFields);
   const [loginUser, { called, loading }] = useLazyQuery(LOGIN_USER, {
     onCompleted: (data) => {
-      console.log("user is now logged in.", data);
+      console.log("user is now logged in. ", data);
       setUserInfo({
         token: data.loginUser.token,
         user: data.loginUser.user,
       });
+      history.push("/");
     },
     onError: (error) => {
       console.error("ERROR!", error);
@@ -57,6 +61,7 @@ const LoginUser = () => {
         password,
       },
     });
+    setCredsInput(defaultFields);
   };
 
   return (
@@ -66,20 +71,26 @@ const LoginUser = () => {
         <label>Email</label>
         <input
           type="text"
-          value={userInfo.email}
+          value={credsInput.email}
           name="email"
           onChange={handleChange}
         ></input>
         <label>Password</label>
         <input
           type="password"
-          value={userInfo.password}
+          value={credsInput.password}
           name="password"
           onChange={handleChange}
         ></input>
         <br />
         <button type="submit">LOGIN</button>
       </form>
+      <div>
+        Dont already have an account?
+        <Link to="/register">
+          <span>Sign Up</span>
+        </Link>
+      </div>
     </div>
   );
 };

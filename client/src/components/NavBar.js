@@ -4,12 +4,19 @@ import { Link } from "react-router-dom";
 import { Context } from "../context/authContext";
 
 const NavBar = () => {
-  const [data] = useContext(Context);
-  console.log(data);
+  const [userInfo, setUserInfo, login, logout] = useContext(Context);
   return (
     <div className="flex flex-col h-screen bg-dark">
-      {data.user ? (
-        <p className="text-red-300">{data.user.username}</p>
+      {userInfo.user ? (
+        <>
+          <p className="text-red-300">{userInfo.user.username}</p>
+          <button
+            onClick={logout}
+            className="m-2 border-2 border-solid border-white"
+          >
+            Logout
+          </button>
+        </>
       ) : (
         <p>please log in</p>
       )}

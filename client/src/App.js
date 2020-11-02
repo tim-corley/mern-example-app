@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { ContextController } from "./context/authContext";
+import { ContextController, Context } from "./context/authContext";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import EditBug from "./components/EditBug";

@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useMutation, gql } from "@apollo/client";
+import { Context } from "../context/authContext";
+import { useHistory, Link } from "react-router-dom";
 
 const CREATE_USER = gql`
   mutation CreateUser(
@@ -33,7 +35,7 @@ const CREATE_USER = gql`
 `;
 
 const CreateUser = () => {
-  const initialState = {
+  const defaultFields = {
     firstName: "",
     lastName: "",
     username: "",
@@ -42,32 +44,45 @@ const CreateUser = () => {
     password: "",
     isAdmin: false,
   };
-
-  const [userData, setUserData] = useState(initialState);
+  const history = useHistory();
+  const [userInfo, setUserInfo] = useContext(Context);
+  const [userInput, setUserInput] = useState(defaultFields);
   const [createUser, { loading, error, data }] = useMutation(CREATE_USER);
 
-  if (data) {
-    console.log("DATA: ", data);
+  if (loading) {
+    console.log("loading");
   }
+  if (error) {
+    console.error("ERROR: ", error);
+  }
+  useEffect(() => {
+    if (data) {
+      console.log("new user created. ", data);
+      setUserInfo({
+        token: data.createUser.token,
+        user: data.createUser.user,
+      });
+      history.push("/");
+    }
+  }, [data]);
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
     if (name == "isAdmin") {
-      setUserData((prevState) => ({
+      setUserInput((prevState) => ({
         ...prevState,
         [name]: checked,
       }));
     } else {
-      setUserData((prevState) => ({
+      setUserInput((prevState) => ({
         ...prevState,
         [name]: value,
       }));
     }
   };
 
-  const sumbitUser = (e) => {
+  const sumbitInput = (e) => {
     e.preventDefault();
-    console.log("\n 📬 SENDING NEW USER DATA TO SERVER...");
     const {
       firstName,
       lastName,
@@ -76,7 +91,7 @@ const CreateUser = () => {
       organization,
       password,
       isAdmin,
-    } = userData;
+    } = userInput;
     createUser({
       variables: {
         firstName,
@@ -88,54 +103,52 @@ const CreateUser = () => {
         isAdmin,
       },
     });
-    console.log("\n ✅ SUCCESS!");
-    setUserData(initialState);
   };
 
   return (
     <div className="m-10 p-6 border-dashed border-2 border-dark">
       <div>PLEASE CREATE A NEW USER</div>
-      <form onSubmit={sumbitUser}>
+      <form onSubmit={sumbitInput}>
         <label>First Name</label>
         <input
           type="text"
           required
-          value={userData.firstName}
+          value={userInput.firstName}
           name="firstName"
           onChange={handleChange}
         ></input>
         <label>Last Name</label>
         <input
           type="text"
-          value={userData.lastName}
+          value={userInput.lastName}
           name="lastName"
           onChange={handleChange}
         ></input>
         <label>Username</label>
         <input
           type="text"
-          value={userData.username}
+          value={userInput.username}
           name="username"
           onChange={handleChange}
         ></input>
         <label>Email</label>
         <input
           type="text"
-          value={userData.email}
+          value={userInput.email}
           name="email"
           onChange={handleChange}
         ></input>
         <label>Organization</label>
         <input
           type="text"
-          value={userData.organization}
+          value={userInput.organization}
           name="organization"
           onChange={handleChange}
         ></input>
         <label>Password</label>
         <input
           type="password"
-          value={userData.password}
+          value={userInput.password}
           name="password"
           onChange={handleChange}
         ></input>
@@ -143,8 +156,8 @@ const CreateUser = () => {
           <input
             type="checkbox"
             name="isAdmin"
-            checked={userData.isAdmin}
-            value={userData.isAdmin}
+            checked={userInput.isAdmin}
+            value={userInput.isAdmin}
             onChange={handleChange}
           ></input>
           Admin User
@@ -152,6 +165,12 @@ const CreateUser = () => {
         <br />
         <button type="submit">ADD NEW USER</button>
       </form>
+      <div>
+        Already have an account?
+        <Link to="/login">
+          <span>Login</span>
+        </Link>
+      </div>
     </div>
   );
 };

@@ -9,15 +9,16 @@ export const ContextController = ({ children }) => {
     login: (token, user) => {},
     logout: () => {},
   };
-  const [loginData, setLoginData] = useState(defaultState);
+  const [userInfo, setUserInfo] = useState(defaultState);
   const login = (token, user) => {
-    setLoginState(token, user);
+    setUserInfo(token, user);
   };
   const logout = () => {
-    setLoginState({ token: null, user: null });
+    console.log("LOGGING OUT...");
+    setUserInfo({ token: null, user: null });
   };
   return (
-    <Context.Provider value={[loginData, setLoginData]}>
+    <Context.Provider value={[userInfo, setUserInfo, login, logout]}>
       {children}
     </Context.Provider>
   );

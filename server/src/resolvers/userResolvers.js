@@ -11,7 +11,7 @@ const usersResolvers = {
       if (!context.isAuth) {
         throw new Error("Cannot Access Without Valid Token!");
       }
-      console.log(context);
+      // console.log(context);
       return await User.findOne({ email });
     },
     users: async () => {
