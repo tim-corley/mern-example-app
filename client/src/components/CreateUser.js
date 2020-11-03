@@ -50,6 +50,7 @@ const CreateUser = ({ errorInfo }) => {
   const history = useHistory();
   const [userInfo, setUserInfo] = useContext(Context);
   const [userInput, setUserInput] = useState(defaultFields);
+  const [alerts, setAlerts] = useState({ error: false, messages: [] });
   const [createUser, { loading }] = useMutation(CREATE_USER, {
     onCompleted: (data) => {
       console.log("new user created. ", data);
@@ -62,6 +63,7 @@ const CreateUser = ({ errorInfo }) => {
     onError: (error) => {
       console.error(error);
       console.error(errorInfo);
+      setAlerts({ error: true, messages: errorInfo });
       setUserInput(defaultFields);
     },
   });
@@ -184,6 +186,7 @@ const CreateUser = ({ errorInfo }) => {
           <span>Login</span>
         </Link>
       </div>
+      {alerts.error ? <p>{alerts.messages}</p> : <p>No errors</p>}
     </div>
   );
 };

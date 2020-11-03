@@ -24,6 +24,7 @@ const LOGIN_USER = gql`
 const LoginUser = ({ errorInfo }) => {
   const history = useHistory();
   const defaultFields = { email: "", password: "" };
+  const [alerts, setAlerts] = useState({ error: false, messages: [] });
   const [userInfo, setUserInfo] = useContext(Context);
   const [credsInput, setCredsInput] = useState(defaultFields);
   const [loginUser, { called, loading }] = useLazyQuery(LOGIN_USER, {
@@ -38,6 +39,7 @@ const LoginUser = ({ errorInfo }) => {
     onError: (error) => {
       console.error(error);
       console.error(errorInfo);
+      setAlerts({ error: true, messages: errorInfo });
     },
   });
 
@@ -92,6 +94,7 @@ const LoginUser = ({ errorInfo }) => {
           <span>Sign Up</span>
         </Link>
       </div>
+      {alerts.error ? <p>{alerts.messages}</p> : <p>No errors</p>}
     </div>
   );
 };
