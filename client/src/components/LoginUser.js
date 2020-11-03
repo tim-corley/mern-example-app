@@ -21,7 +21,7 @@ const LOGIN_USER = gql`
   }
 `;
 
-const LoginUser = () => {
+const LoginUser = ({ errorInfo }) => {
   const history = useHistory();
   const defaultFields = { email: "", password: "" };
   const [userInfo, setUserInfo] = useContext(Context);
@@ -36,7 +36,8 @@ const LoginUser = () => {
       history.push("/");
     },
     onError: (error) => {
-      console.error("ERROR!", error);
+      console.error(error);
+      console.error(errorInfo);
     },
   });
 

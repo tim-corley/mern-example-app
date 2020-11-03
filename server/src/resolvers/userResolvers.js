@@ -24,9 +24,9 @@ const usersResolvers = {
     loginUser: async (_, { email, password }) => {
       try {
         let user = await User.findOne({ email });
-        if (!user) throw new Error("Email not found.");
+        if (!user) throw new ApolloError("Email address not found.");
         let isMatch = await user.validatePassword(password);
-        if (!isMatch) throw new Error("Invalid Password");
+        if (!isMatch) throw new ApolloError("Invalid password.");
         user = userFunctions.serializeUser(user);
         let token = userFunctions.issueToken(user);
         return { user, token };

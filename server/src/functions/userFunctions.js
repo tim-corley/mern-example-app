@@ -13,13 +13,13 @@ const userFunctions = {
     } else {
       const emailRegEx = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
       if (!email.match(emailRegEx)) {
-        errors.email = "Provided email is not a valid address";
+        errors.email = "Provided email is not a valid address.";
       }
     }
     if (password === "") {
       errors.password = "Password cannot be empty";
     } else if (password !== confirmPwd) {
-      errors.confirmPwd = "The passwords do not match";
+      errors.confirmPwd = "The passwords do not match.";
     }
     return {
       errors,

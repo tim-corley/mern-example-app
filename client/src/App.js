@@ -17,13 +17,22 @@ import "./styles.css";
 
 const App = () => {
   const [errorInfo, setErrorInfo] = useState([]);
-  const errorLink = onError(({ response, networkError, graphQLErrors }) => {
-    if (graphQLErrors) {
-      const errorInfo = response.errors[0].extensions.errors;
-      setErrorInfo(Object.values(errorInfo));
+
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors)
+      graphQLErrors.map(({ message, extensions }) => {
+        if (!extensions.errors) {
+          setErrorInfo(message);
+        } else {
+          setErrorInfo(Object.values(extensions.errors));
+        }
+      });
+    if (networkError) {
+      console.log(`[Network error]: ${networkError}`);
+      props.history.push("/network-error"); // redirect to network-error route
     }
-    if (networkError) setErrorInfo(networkError);
   });
+
   const client = new ApolloClient({
     cache: new InMemoryCache(),
     link: ApolloLink.from([
@@ -31,6 +40,7 @@ const App = () => {
       new createHttpLink({ uri: "http://localhost:3000/graphql" }),
     ]),
   });
+
   return (
     <ApolloProvider client={client}>
       <Router>
@@ -45,7 +55,10 @@ const App = () => {
               <Route path="/edit/:id" component={EditBug} />
               <Route path="/add" component={AddBug} />
               <Route path="/user" component={UserLanding} />
-              <Route path="/login" component={LoginUser} />
+              <Route
+                path="/login"
+                render={() => <LoginUser errorInfo={errorInfo} />}
+              />
               <Route
                 path="/register"
                 render={() => <CreateUser errorInfo={errorInfo} />}

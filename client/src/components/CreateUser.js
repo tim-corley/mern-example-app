@@ -50,7 +50,7 @@ const CreateUser = ({ errorInfo }) => {
   const history = useHistory();
   const [userInfo, setUserInfo] = useContext(Context);
   const [userInput, setUserInput] = useState(defaultFields);
-  const [createUser, { loading, error, data }] = useMutation(CREATE_USER, {
+  const [createUser, { loading }] = useMutation(CREATE_USER, {
     onCompleted: (data) => {
       console.log("new user created. ", data);
       setUserInfo({
@@ -62,6 +62,7 @@ const CreateUser = ({ errorInfo }) => {
     onError: (error) => {
       console.error(error);
       console.error(errorInfo);
+      setUserInput(defaultFields);
     },
   });
 
