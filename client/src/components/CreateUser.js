@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useMutation, gql } from "@apollo/client";
 import { Context } from "../context/authContext";
 import { useHistory, Link } from "react-router-dom";
@@ -36,7 +36,7 @@ const CREATE_USER = gql`
   }
 `;
 
-const CreateUser = () => {
+const CreateUser = ({ errorInfo }) => {
   const defaultFields = {
     firstName: "",
     lastName: "",
@@ -60,27 +60,14 @@ const CreateUser = () => {
       history.push("/");
     },
     onError: (error) => {
-      console.error("ERR!", error);
+      console.error(error);
+      console.error(errorInfo);
     },
   });
 
   if (loading) {
     console.log("loading");
   }
-  // if (error) {
-  //   console.error("ERROR: ", error);
-  //   console.log("\n---", error.extraInfo);
-  // }
-  // useEffect(() => {
-  //   if (data) {
-  //     console.log("new user created. ", data);
-  //     setUserInfo({
-  //       token: data.createUser.token,
-  //       user: data.createUser.user,
-  //     });
-  //     history.push("/");
-  //   }
-  // }, [data]);
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;

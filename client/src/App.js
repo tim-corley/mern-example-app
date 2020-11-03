@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { ContextController } from "./context/authContext";
@@ -15,28 +15,22 @@ import UserLanding from "./components/UserLanding";
 import LoginUser from "./components/LoginUser";
 import "./styles.css";
 
-const errorLink = onError(({ response, networkError, graphQLErrors }) => {
-  console.log(response);
-  if (graphQLErrors) {
-    graphQLErrors.map(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      )
-    );
-  }
-  if (networkError) console.log(`[Network error]: ${networkError}`);
-});
-
-const client = new ApolloClient({
-  // uri: "http://localhost:3000/graphql",
-  cache: new InMemoryCache(),
-  link: ApolloLink.from([
-    errorLink,
-    new createHttpLink({ uri: "http://localhost:3000/graphql" }),
-  ]),
-});
-
 const App = () => {
+  const [errorInfo, setErrorInfo] = useState([]);
+  const errorLink = onError(({ response, networkError, graphQLErrors }) => {
+    if (graphQLErrors) {
+      const errorInfo = response.errors[0].extensions.errors;
+      setErrorInfo(Object.values(errorInfo));
+    }
+    if (networkError) setErrorInfo(networkError);
+  });
+  const client = new ApolloClient({
+    cache: new InMemoryCache(),
+    link: ApolloLink.from([
+      errorLink,
+      new createHttpLink({ uri: "http://localhost:3000/graphql" }),
+    ]),
+  });
   return (
     <ApolloProvider client={client}>
       <Router>
@@ -52,7 +46,10 @@ const App = () => {
               <Route path="/add" component={AddBug} />
               <Route path="/user" component={UserLanding} />
               <Route path="/login" component={LoginUser} />
-              <Route path="/register" component={CreateUser} />
+              <Route
+                path="/register"
+                render={() => <CreateUser errorInfo={errorInfo} />}
+              />
             </div>
           </div>
         </ContextController>
