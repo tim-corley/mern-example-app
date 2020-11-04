@@ -5,7 +5,10 @@ import { ContextController } from "./context/authContext";
 import { ApolloLink } from "apollo-link";
 import { createHttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
+import Landing from "./components/layouts/Landing";
 import NavBar from "./components/NavBar";
+import NewNav from "./components/NewNav";
+import Footer from "./components/Footer";
 import Home from "./components/Home";
 import EditBug from "./components/EditBug";
 import AddBug from "./components/AddBug";
@@ -45,26 +48,22 @@ const App = () => {
     <ApolloProvider client={client}>
       <Router>
         <ContextController>
-          <div className="grid grid-cols-12 gap-2">
-            <div className="col-span-1">
-              <NavBar />
-            </div>
-            <div className="col-span-11">
-              <Route path="/" exact component={Home} />
-              <Route path="/bugs" component={BugsList} />
-              <Route path="/edit/:id" component={EditBug} />
-              <Route path="/add" component={AddBug} />
-              <Route path="/user" component={UserLanding} />
-              <Route
-                path="/login"
-                render={() => <LoginUser errorInfo={errorInfo} />}
-              />
-              <Route
-                path="/register"
-                render={() => <CreateUser errorInfo={errorInfo} />}
-              />
-            </div>
-          </div>
+          <NewNav transparent />
+          <Route path="/" exact component={Landing} />
+          <Route path="/bugs" component={BugsList} />
+          <Route path="/edit/:id" component={EditBug} />
+          <Route path="/add" component={AddBug} />
+          <Route path="/user" component={UserLanding} />
+          <Route
+            path="/login"
+            render={() => <LoginUser errorInfo={errorInfo} />}
+          />
+          <Route
+            path="/register"
+            render={() => <CreateUser errorInfo={errorInfo} />}
+          />
+
+          <Footer />
         </ContextController>
       </Router>
     </ApolloProvider>

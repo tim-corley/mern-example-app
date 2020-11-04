@@ -1,14 +1,14 @@
 import React from "react";
 import UserList from "./UserList";
 import { Link } from "react-router-dom";
-import logo from "../assets/jar.png";
+import logo from "../assets/jar_logo.png";
 
 const UserLanding = () => {
   return (
     <div className="flex flex-col my-20 m-auto w-1/2 py-10 shadow-md">
       <div className="flex m-6 justify-center">
         <div className="mt-6 text-2xl">Glass Jar</div>
-        <img src={logo} className="transform -rotate-6 h-20" />
+        <img src={logo} className="transform rotate-3 h-32" />
       </div>
       <div className="flex m-auto w-3/4 justify-center">
         <Link to="/login">
