@@ -145,26 +145,10 @@ export default function NewNav({ transparent }) {
                 </a>
               </li>
 
-              <li className="flex items-center">
-                {userInfo.user ? (
-                  <>
-                    <li className="flex items-center">
-                      <button
-                        className={
-                          (transparent
-                            ? "bg-white text-gray-800 active:bg-gray-100"
-                            : "bg-pink-500 text-white active:bg-pink-600") +
-                          " text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
-                        }
-                        type="button"
-                        style={{ transition: "all .15s ease" }}
-                      >
-                        <FontAwesomeIcon icon={faUser} />{" "}
-                        <span className="inline-block ml-2">My Account</span>
-                      </button>
-                    </li>
+              {userInfo.user ? (
+                <>
+                  <li className="flex items-center">
                     <button
-                      onClick={logout}
                       className={
                         (transparent
                           ? "bg-white text-gray-800 active:bg-gray-100"
@@ -175,10 +159,26 @@ export default function NewNav({ transparent }) {
                       style={{ transition: "all .15s ease" }}
                     >
                       <FontAwesomeIcon icon={faUser} />{" "}
-                      <span className="inline-block ml-2">Logout</span>
+                      <span className="inline-block ml-2">My Account</span>
                     </button>
-                  </>
-                ) : (
+                  </li>
+                  <button
+                    onClick={logout}
+                    className={
+                      (transparent
+                        ? "bg-white text-gray-800 active:bg-gray-100"
+                        : "bg-pink-500 text-white active:bg-pink-600") +
+                      " text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
+                    }
+                    type="button"
+                    style={{ transition: "all .15s ease" }}
+                  >
+                    <FontAwesomeIcon icon={faUser} />{" "}
+                    <span className="inline-block ml-2">Logout</span>
+                  </button>
+                </>
+              ) : (
+                <li className="flex items-center">
                   <Link to="/user">
                     <button
                       className={
@@ -194,8 +194,8 @@ export default function NewNav({ transparent }) {
                       <span className="inline-block ml-2">Sign In</span>
                     </button>
                   </Link>
-                )}
-              </li>
+                </li>
+              )}
             </ul>
           </div>
         </div>
