@@ -14,7 +14,7 @@ import EditBug from "./components/EditBug";
 import AddBug from "./components/AddBug";
 import CreateUser from "./components/CreateUser";
 import BugsList from "./components/BugsList";
-import UserLanding from "./components/UserLanding";
+import UserLanding from "./components/layouts/UserLanding";
 import LoginUser from "./components/LoginUser";
 import "./styles.css";
 

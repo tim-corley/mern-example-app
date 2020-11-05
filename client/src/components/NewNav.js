@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import Logo from "../assets/jar_logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
   faDownload,
   faFileAlt,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faFacebookF,
@@ -28,10 +30,14 @@ export default function Navbar({ transparent }) {
             <a
               className={
                 (transparent ? "text-white" : "text-gray-800") +
-                " text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase"
+                " text-lg font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase"
               }
               href="https://github.com/tim-corley/mern-example-app"
             >
+              <img
+                src={Logo}
+                className="inline h-10 mr-2 transform -rotate-6"
+              />{" "}
               Glass Jar
             </a>
             <button
@@ -152,10 +158,8 @@ export default function Navbar({ transparent }) {
                   type="button"
                   style={{ transition: "all .15s ease" }}
                 >
-                  <i className="fas fa-arrow-alt-circle-down">
-                    <FontAwesomeIcon icon={faDownload} />
-                  </i>{" "}
-                  Download
+                  <FontAwesomeIcon icon={faUser} />{" "}
+                  <span className="inline-block ml-2">My Account</span>
                 </button>
               </li>
             </ul>

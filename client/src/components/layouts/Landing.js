@@ -1,5 +1,8 @@
 import React from "react";
-import keyboardImg from "../../assets/keyboard.jpg";
+import Button from "../Button";
+import { Link } from "react-router-dom";
+import KeyboardImg from "../../assets/keyboard.jpg";
+import HeaderBackground from "../../assets/landing_header_bg.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAward,
@@ -35,27 +38,31 @@ export default function Landing() {
           <div
             className="absolute top-0 w-full h-full bg-center bg-cover"
             style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80')",
+              backgroundImage: `url(${HeaderBackground})`,
             }}
           >
             <span
               id="blackOverlay"
-              className="w-full h-full absolute opacity-75 bg-black"
+              className="w-full h-full absolute opacity-75 bg-gradient-to-b from-primary to-secondary"
             ></span>
           </div>
           <div className="container relative mx-auto">
             <div className="items-center flex flex-wrap">
               <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-                <div className="pr-12">
+                <div className="px-2">
                   <h1 className="text-white font-semibold text-5xl">
                     Contain Your Bugs
                   </h1>
-                  <p className="mt-4 text-lg text-gray-300">
-                    This is a simple example of a Landing Page you can build
-                    using Tailwind Starter Kit. It features multiple CSS
-                    components based on the Tailwindcss design system.
+                  <p className="mt-4 text-lg text-accent">
+                    Use Glass Jar to streamline your teams software development
+                    process. Easily report bugs, track issues, and monitor
+                    trends so that you can confidently ship high quality code.
                   </p>
+                </div>
+                <div>
+                  <Link to="/user">
+                    <Button label={"Get Started"} />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -301,7 +308,7 @@ export default function Landing() {
                 <div className="px-6">
                   <img
                     alt="..."
-                    src={keyboardImg}
+                    src={KeyboardImg}
                     className="shadow-lg rounded-full max-w-full mx-auto"
                     style={{ maxWidth: "120px" }}
                   />
@@ -337,7 +344,7 @@ export default function Landing() {
                 <div className="px-6">
                   <img
                     alt="..."
-                    src={keyboardImg}
+                    src={KeyboardImg}
                     className="shadow-lg rounded-full max-w-full mx-auto"
                     style={{ maxWidth: "120px" }}
                   />
@@ -367,7 +374,7 @@ export default function Landing() {
                 <div className="px-6">
                   <img
                     alt="..."
-                    src={keyboardImg}
+                    src={KeyboardImg}
                     className="shadow-lg rounded-full max-w-full mx-auto"
                     style={{ maxWidth: "120px" }}
                   />
@@ -403,7 +410,7 @@ export default function Landing() {
                 <div className="px-6">
                   <img
                     alt="..."
-                    src={keyboardImg}
+                    src={KeyboardImg}
                     className="shadow-lg rounded-full max-w-full mx-auto"
                     style={{ maxWidth: "120px" }}
                   />
