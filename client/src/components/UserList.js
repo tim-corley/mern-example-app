@@ -23,10 +23,10 @@ const UserList = () => {
   if (loading) return <p>Loading Users...</p>;
   if (error) return <p>Oops! Something went wrong.</p>;
   return data.users.map(({ id, username, email, isAdmin }) => (
-    <div key={id}>
-      <div>{username}</div>
-      <div>{email}</div>
-      <div>Admin? {isAdmin.toString()}</div>
+    <div className="flex flex-row w-2/3 m-auto p-4 bg-dark text-light" key={id}>
+      <div className="px-2 border-r border-light">{username}</div>
+      <div className="px-2 border-r border-light">{email}</div>
+      <div className="mx-2">Admin? {isAdmin.toString()}</div>
     </div>
   ));
 };
