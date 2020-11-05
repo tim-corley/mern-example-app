@@ -6,16 +6,12 @@ import { ApolloLink } from "apollo-link";
 import { createHttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import Landing from "./components/layouts/Landing";
-import NavBar from "./components/NavBar";
 import NewNav from "./components/NewNav";
 import Footer from "./components/Footer";
-import Home from "./components/Home";
 import EditBug from "./components/EditBug";
 import AddBug from "./components/AddBug";
-import CreateUser from "./components/CreateUser";
 import BugsList from "./components/BugsList";
 import UserLanding from "./components/layouts/UserLanding";
-import LoginUser from "./components/LoginUser";
 import "./styles.css";
 
 const App = () => {
@@ -53,16 +49,10 @@ const App = () => {
           <Route path="/bugs" component={BugsList} />
           <Route path="/edit/:id" component={EditBug} />
           <Route path="/add" component={AddBug} />
-          <Route path="/user" component={UserLanding} />
           <Route
-            path="/login"
-            render={() => <LoginUser errorInfo={errorInfo} />}
+            path="/user"
+            render={() => <UserLanding errorInfo={errorInfo} />}
           />
-          <Route
-            path="/register"
-            render={() => <CreateUser errorInfo={errorInfo} />}
-          />
-
           <Footer />
         </ContextController>
       </Router>

@@ -54,12 +54,12 @@ export default function Landing() {
                     Contain Your Bugs
                   </h1>
                   <p className="mt-4 text-lg text-accent">
-                    Use Glass Jar to streamline your teams software development
+                    Use Glass Jar to streamline your team's software development
                     process. Easily report bugs, track issues, and monitor
                     trends so that you can confidently ship high quality code.
                   </p>
                 </div>
-                <div>
+                <div className="m-auto w-2/3 lg:w-1/3">
                   <Link to="/user">
                     <Button label={"Get Started"} />
                   </Link>
