@@ -2,8 +2,8 @@ import React, { useState, useContext } from "react";
 import { useMutation, gql } from "@apollo/client";
 import { Context } from "../context/authContext";
 import { useHistory } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle, faGithub } from "@fortawesome/free-brands-svg-icons";
+import GithubLogo from "../assets/github.svg";
+import GoogleLogo from "../assets/google.svg";
 import Button from "./Button";
 
 const CREATE_USER = gql`
@@ -116,8 +116,8 @@ const NewRegister = ({ errorInfo }) => {
     });
   };
   return (
-    <div className="w-full lg:mx-8">
-      <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300 border-0">
+    <div className="w-full lg:mx-8 flex justify-center">
+      <div className="relative flex flex-col min-w-0 break-words w-full lg:w-3/4 mb-6 shadow-lg rounded-lg bg-gray-300 border-0">
         <div className="rounded-t mb-0 px-6 py-6">
           <div className="text-center mb-3">
             <h6 className="text-gray-600 text-sm font-bold">Sign in with</h6>
@@ -128,7 +128,7 @@ const NewRegister = ({ errorInfo }) => {
               type="button"
               style={{ transition: "all .15s ease" }}
             >
-              <FontAwesomeIcon icon={faGithub} />
+              <img alt="..." className="w-5 mr-1" src={GithubLogo} />
               Github
             </button>
             <button
@@ -136,7 +136,7 @@ const NewRegister = ({ errorInfo }) => {
               type="button"
               style={{ transition: "all .15s ease" }}
             >
-              <FontAwesomeIcon icon={faGoogle} />
+              <img alt="..." className="w-5 mr-1" src={GoogleLogo} />
               Google
             </button>
           </div>
