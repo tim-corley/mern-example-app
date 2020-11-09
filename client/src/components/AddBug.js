@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useMutation, gql } from "@apollo/client";
+import Button from "./Button";
+import { useHistory } from "react-router-dom";
 
 const ADD_BUG = gql`
   mutation AddBug(
@@ -35,6 +37,7 @@ const AddBug = () => {
     severity: 0,
     releaseBlocker: false,
   };
+  const history = useHistory();
   const [bugData, setBugData] = useState(initialState);
   const [addBug] = useMutation(ADD_BUG);
 
@@ -62,7 +65,6 @@ const AddBug = () => {
 
   const sumbitBug = (e) => {
     e.preventDefault();
-    console.log("\n 📬 SENDING NEW BUG DATA TO SERVER...");
     const { title, description, platform, severity, releaseBlocker } = bugData;
     addBug({
       variables: {
@@ -73,67 +75,136 @@ const AddBug = () => {
         releaseBlocker,
       },
     });
-    console.log("\n ✅ SUCCESS!");
+    history.push("/");
   };
 
   return (
-    <div className="m-10 p-6 border-dashed border-2 border-dark">
-      <form onSubmit={sumbitBug}>
-        <label>Title</label>
-        <input
-          type="text"
-          required
-          value={bugData.title}
-          name="title"
-          onChange={handleChange}
-        ></input>
-        <label>Description</label>
-        <input
-          type="text"
-          value={bugData.description}
-          name="description"
-          onChange={handleChange}
-        ></input>
-        <label>Platform</label>
-        <input
-          type="text"
-          value={bugData.platform}
-          name="platform"
-          onChange={handleChange}
-        ></input>
-        <label>Severity (1-5)</label>
-        <input
-          type="number"
-          value={bugData.severity}
-          name="severity"
-          onChange={handleChange}
-        ></input>
-        <div>Release Blocker?</div>
-        <label>
-          <input
-            type="radio"
-            name="releaseBlocker"
-            value="false"
-            checked={bugData.releaseBlocker === false}
-            onChange={handleChange}
-          ></input>
-          NO
-        </label>
-        <br />
-        <label>
-          <input
-            type="radio"
-            name="releaseBlocker"
-            value="true"
-            checked={bugData.releaseBlocker === true}
-            onChange={handleChange}
-          ></input>
-          YES
-        </label>
-        <br />
-        <button type="submit">CREATE</button>
-      </form>
-    </div>
+    <main>
+      <div
+        className="relative pt-16 pb-32 flex content-center items-center justify-center"
+        style={{
+          minHeight: "75vh",
+        }}
+      >
+        <div className="absolute top-0 w-full h-full bg-center bg-cover bg-gradient-to-b from-primary to-secondary"></div>
+        <section className="z-10 w-full lg:w-3/4 h-full mx-4">
+          <div className="mt-10 lg:m-10 lg:p-6 flex justify-center">
+            <div className="relative flex flex-col min-w-0 break-words w-full lg:w-3/4 mb-6 shadow-lg rounded-lg bg-gray-300 border-0">
+              <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
+                <div className="text-gray-500 text-center my-3 font-bold">
+                  <small>Create a New Bug Report</small>
+                </div>
+                <form onSubmit={sumbitBug}>
+                  <div className="relative w-full mb-3">
+                    <label
+                      className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="title"
+                    >
+                      Title
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
+                      style={{ transition: "all .15s ease" }}
+                      value={bugData.title}
+                      name="title"
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="lg:flex flex-row">
+                    <div className="relative lg:mr-2 mb-3">
+                      <label
+                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="title"
+                      >
+                        Platform
+                      </label>
+                      <select
+                        type="text"
+                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
+                        style={{ transition: "all .15s ease" }}
+                        value={bugData.platform}
+                        name="platform"
+                        onChange={handleChange}
+                      >
+                        <option>Desktop Web</option>
+                        <option>Mobile Web</option>
+                        <option>iOS Mobile App</option>
+                        <option>Android Mobile App</option>
+                      </select>
+                    </div>
+                    <div className="relative lg:ml-2 mb-3">
+                      <label
+                        className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                        htmlFor="title"
+                      >
+                        Severity
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="5"
+                        className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline"
+                        style={{ transition: "all .15s ease" }}
+                        value={bugData.severity}
+                        name="severity"
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="relative w-full mb-3">
+                    <label
+                      className="block uppercase text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="description"
+                    >
+                      Description
+                    </label>
+                    <textarea
+                      type="textarea"
+                      className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
+                      style={{ transition: "all .15s ease" }}
+                      value={bugData.description}
+                      name="description"
+                      onChange={handleChange}
+                      rows={5}
+                    />
+                  </div>
+                  <div className="block uppercase text-gray-700 text-xs font-bold mb-2">
+                    Release Blocker?
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        name="releaseBlocker"
+                        className="mr-1 w-5 h-5"
+                        value="false"
+                        checked={bugData.releaseBlocker === false}
+                        onChange={handleChange}
+                      ></input>
+                      NO
+                    </label>
+                    <label className="inline-flex items-center my-2">
+                      <input
+                        type="radio"
+                        name="releaseBlocker"
+                        className="mr-1 w-5 h-5"
+                        value="true"
+                        checked={bugData.releaseBlocker === true}
+                        onChange={handleChange}
+                      ></input>
+                      YES
+                    </label>
+                  </div>
+                  <Button label={"Create New Bug"} />
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
   );
 };
 
