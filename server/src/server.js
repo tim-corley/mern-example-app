@@ -17,8 +17,8 @@ app.use(express.json());
 app.use(AuthMiddleware);
 
 const server = new ApolloServer({
-  typeDefs: typeDefs,
-  resolvers: resolvers,
+  typeDefs,
+  resolvers,
   context: ({ req }) => {
     let { isAuth, user } = req;
     return {
