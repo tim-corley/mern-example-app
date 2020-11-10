@@ -1,17 +1,6 @@
 import React, { useState } from "react";
-import { useQuery, gql } from "@apollo/client";
 
 export const Context = React.createContext({});
-
-const GET_CURRENT_USER = gql`
-  query CurrentUser($email: String!) {
-    currentUser(email: $email) {
-      id
-      email
-      username
-    }
-  }
-`;
 
 export const ContextController = ({ children }) => {
   let defaultState = {
@@ -27,7 +16,7 @@ export const ContextController = ({ children }) => {
 
   const logout = () => {
     console.log("LOGGING OUT...");
-    window.localStorage.clear();
+    window.sessionStorage.clear();
     // client.resetStore();
     setUserInfo({ token: null, user: null });
   };
