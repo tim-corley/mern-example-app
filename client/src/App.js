@@ -5,10 +5,11 @@ import { ContextController } from "./context/authContext";
 import { ApolloLink } from "apollo-link";
 import { createHttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
+import { setContext } from "@apollo/client/link/context";
 import Landing from "./components/layouts/Landing";
 import NewNav from "./components/NewNav";
 import Footer from "./components/Footer";
-import EditBug from "./components/EditBug";
+import BugDetails from "./components/BugDetails";
 import AddBug from "./components/AddBug";
 import BugsList from "./components/BugsList";
 import UserLanding from "./components/layouts/UserLanding";
@@ -32,10 +33,23 @@ const App = () => {
     }
   });
 
+  const authLink = setContext((_, { headers }) => {
+    // get the authentication token from local storage if it exists
+    const token = localStorage.getItem("token");
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `${token}` : "",
+      },
+    };
+  });
+
   const client = new ApolloClient({
     cache: new InMemoryCache(),
     link: ApolloLink.from([
       errorLink,
+      authLink,
       new createHttpLink({ uri: "http://localhost:3000/graphql" }),
     ]),
   });
@@ -47,7 +61,7 @@ const App = () => {
           <NewNav transparent />
           <Route path="/" exact component={Landing} />
           <Route path="/bugs" component={BugsList} />
-          <Route path="/edit/:id" component={EditBug} />
+          <Route path="/details/:id" component={BugDetails} />
           <Route path="/add" component={AddBug} />
           <Route
             path="/user"

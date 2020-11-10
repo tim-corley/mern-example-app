@@ -41,7 +41,8 @@ const LoginUser = ({ errorInfo }) => {
         token: data.loginUser.token,
         user: data.loginUser.user,
       });
-      history.push("/");
+      localStorage.setItem("token", data.loginUser.token);
+      history.push("/bugs");
     },
     onError: (error) => {
       console.error(error);

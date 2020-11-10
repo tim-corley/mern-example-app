@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "../Button";
 import { Link } from "react-router-dom";
+import { Context } from "../../context/authContext";
 import KeyboardImg from "../../assets/keyboard.jpg";
 import HeaderBackground from "../../assets/landing_header_bg.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,6 +27,8 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 export default function Landing() {
+  const [userInfo, setUserInfo, login, logout] = useContext(Context);
+  console.log(userInfo);
   return (
     <>
       <main>
