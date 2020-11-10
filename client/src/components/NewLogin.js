@@ -36,9 +36,7 @@ const LoginUser = ({ errorInfo }) => {
   const [credsInput, setCredsInput] = useState(defaultFields);
   const [loginUser, { called, loading }] = useLazyQuery(LOGIN_USER, {
     onCompleted: (data) => {
-      console.log("user is now logged in. ", data);
       setUserInfo({
-        token: data.loginUser.token,
         user: data.loginUser.user,
       });
       sessionStorage.setItem("token", data.loginUser.token);
