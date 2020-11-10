@@ -11,6 +11,7 @@ import cors from "cors";
 const app = express();
 const port = process.env.PORT || 3001;
 
+app.disable("x-powered-by");
 app.use(cors());
 app.use(express.json());
 app.use(AuthMiddleware);
@@ -28,7 +29,7 @@ const server = new ApolloServer({
   },
 });
 
-server.applyMiddleware({ app: app });
+server.applyMiddleware({ app });
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
