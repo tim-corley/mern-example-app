@@ -28,7 +28,6 @@ import {
 
 export default function Landing() {
   const [userInfo, setUserInfo, login, logout] = useContext(Context);
-  console.log(userInfo);
   return (
     <>
       <main>

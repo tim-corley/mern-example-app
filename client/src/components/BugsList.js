@@ -18,7 +18,6 @@ const GET_BUGS = gql`
 
 const BugsList = () => {
   const [userInfo, setUserInfo, login, logout] = useContext(Context);
-  console.log(userInfo);
   const { loading, error, data } = useQuery(GET_BUGS);
 
   if (loading) return <p>Loading Bugs...</p>;
