@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useMutation, gql } from "@apollo/client";
 import Button from "./Button";
 import { useHistory } from "react-router-dom";
+import ValidationErr from "./ValidationErr";
 
 const ADD_BUG = gql`
   mutation AddBug(
@@ -29,7 +30,7 @@ const ADD_BUG = gql`
   }
 `;
 
-const AddBug = () => {
+const AddBug = ({ errorInfo }) => {
   const initialState = {
     title: "",
     description: "",
@@ -39,7 +40,22 @@ const AddBug = () => {
   };
   const history = useHistory();
   const [bugData, setBugData] = useState(initialState);
-  const [addBug] = useMutation(ADD_BUG);
+  const [alerts, setAlerts] = useState({ error: false, messages: [] });
+  const [addBug, { loading }] = useMutation(ADD_BUG, {
+    onCompleted: (data) => {
+      console.log("new bug report created.", data);
+      history.push("/bugs");
+    },
+    onError: (error) => {
+      console.error(error);
+      console.error(errorInfo);
+      setAlerts({ error: true, messages: errorInfo });
+    },
+  });
+
+  if (loading) {
+    console.log("loading");
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -75,7 +91,6 @@ const AddBug = () => {
         releaseBlocker,
       },
     });
-    history.push("/");
   };
 
   return (
@@ -128,10 +143,13 @@ const AddBug = () => {
                         name="platform"
                         onChange={handleChange}
                       >
-                        <option>Desktop Web</option>
-                        <option>Mobile Web</option>
-                        <option>iOS Mobile App</option>
-                        <option>Android Mobile App</option>
+                        <option></option>
+                        <option>Web (Desktop & mWeb)</option>
+                        <option>Desktop Web Only</option>
+                        <option>Mobile Web Only</option>
+                        <option>Native Mobile (iOS & Android)</option>
+                        <option>iOS Only</option>
+                        <option>Android Only</option>
                       </select>
                     </div>
                     <div className="relative lg:ml-2 mb-3">
@@ -202,6 +220,11 @@ const AddBug = () => {
               </div>
             </div>
           </div>
+          {alerts.error ? (
+            <ValidationErr alerts={alerts.messages} />
+          ) : (
+            <div></div>
+          )}
         </section>
       </div>
     </main>

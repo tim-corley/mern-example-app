@@ -1,5 +1,7 @@
 import { GraphQLDateTime } from "graphql-iso-date";
 import { Bug } from "../models/Bug.model";
+import { bugFunctions } from "../functions/bugFunctions";
+import { UserInputError } from "apollo-server-express";
 
 const bugsResolvers = {
   Date: GraphQLDateTime,
@@ -16,6 +18,14 @@ const bugsResolvers = {
       _,
       { title, description, platform, severity, releaseBlocker }
     ) => {
+      const { valid, errors } = bugFunctions.inputValidation({
+        title,
+        description,
+        severity,
+      });
+      if (!valid) {
+        throw new UserInputError("Input Validation Error(s)", { errors });
+      }
       let bugData = await Bug.create({
         title,
         description,

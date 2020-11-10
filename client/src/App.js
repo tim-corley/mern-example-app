@@ -29,7 +29,7 @@ const App = () => {
       });
     if (networkError) {
       console.log(`[Network error]: ${networkError}`);
-      props.history.push("/network-error"); // redirect to network-error route
+      // history.push("/network-error"); // redirect to network-error route
     }
   });
 
@@ -60,7 +60,7 @@ const App = () => {
           <Route path="/" exact component={Landing} />
           <Route path="/bugs" component={BugsList} />
           <Route path="/details/:id" component={BugDetails} />
-          <Route path="/add" component={AddBug} />
+          <Route path="/add" render={() => <AddBug errorInfo={errorInfo} />} />
           <Route
             path="/user"
             render={() => <UserLanding errorInfo={errorInfo} />}
