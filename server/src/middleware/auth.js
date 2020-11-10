@@ -3,20 +3,17 @@ import { User } from "../models/User.model";
 import { verify } from "jsonwebtoken";
 
 const AuthMiddleware = async (req, res, next) => {
-  let testing = process.env.SECRET;
-  console.log("KEY: ", testing);
   const authHeader = req.get("Authorization");
   if (!authHeader) {
     req.isAuth = false;
-    console.log("No Auth Header");
+    console.log("NO AUTH HEADER ON THE REQUEST");
     return next();
   }
   // extract token
   let token = authHeader.split(" ")[1];
-  console.log("TOKEN: ", token);
   if (!token || token === "") {
     req.isAuth = false;
-    console.log("No Token");
+    console.log("NO AUTH TOKEN FOUND");
     return next();
   }
   // verify token
@@ -30,20 +27,18 @@ const AuthMiddleware = async (req, res, next) => {
   }
   if (!decodedToken) {
     req.isAuth = false;
-    console.log("AUTHORIZED?  ", req.isAuth);
     return next();
   }
   // find user from db
   let authUser = await User.findById(decodedToken.user.id);
   if (!authUser) {
     req.isAuth = false;
-    console.log("NO USER...");
+    console.log("USER NOT IN DB");
     return next();
   }
   req.user = authUser;
   req.isAuth = true;
-  console.log("AUTHORIZED?  ", req.isAuth);
-  console.log("TEST", decodedToken);
+  console.log("AUTHORIZED USER MADE REQUEST");
   return next();
 };
 
