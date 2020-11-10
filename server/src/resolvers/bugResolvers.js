@@ -7,6 +7,9 @@ const bugsResolvers = {
     bugs: async () => {
       return await Bug.find({});
     },
+    bugDetails: async (_, { id }) => {
+      return await Bug.findById(id);
+    },
   },
   Mutation: {
     addBug: async (

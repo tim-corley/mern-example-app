@@ -11,7 +11,7 @@ const usersResolvers = {
   Date: GraphQLDateTime,
   Query: {
     // protected query example
-    demo: async (_, { email }, context) => {
+    currentUser: async (_, { email }, context) => {
       if (!context.isAuth) {
         throw new AuthenticationError("Cannot Access Without Valid Token!");
       }
