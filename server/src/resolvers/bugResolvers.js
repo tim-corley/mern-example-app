@@ -21,7 +21,6 @@ const bugsResolvers = {
       const { valid, errors } = bugFunctions.inputValidation({
         title,
         description,
-        platform,
         severity,
       });
       if (!valid) {

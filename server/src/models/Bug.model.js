@@ -6,8 +6,8 @@ const bugSchema = new Schema(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },
-    platform: { type: String, required: true },
-    severity: { type: Number, required: true },
+    platform: { type: String, required: false },
+    severity: { type: Number, required: false },
     releaseBlocker: { type: Boolean, required: false },
   },
   { timestamps: true }
