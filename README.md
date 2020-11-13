@@ -1,8 +1,11 @@
 # FullStack App Example (MERN)
 
+This is a fullstack web application. The current demo is designed as a bug tracking app w/ user auth.
+
 ## Stack
  - Mongo Atlas
  - Mongoose
+ - Express
  - Apollo (Server & Client)
  - GraphQL
  - React
